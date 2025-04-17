@@ -15,10 +15,8 @@ connectDB();
 const app = express();
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL // Read allowed origin from env var
+  origin: process.env.FRONTEND_URL // Adjust if needed to frontend URL
 }));
-
-// app.use(cors()); // use for devlopment
 
 app.use(express.json());
 
