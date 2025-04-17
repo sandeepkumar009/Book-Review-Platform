@@ -15,8 +15,10 @@ connectDB();
 const app = express();
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*' // Allow specific origin or all (*) initially
+  origin: process.env.FRONTEND_URL // Read allowed origin from env var
 }));
+
+// app.use(cors()); // use for 
 
 app.use(express.json());
 

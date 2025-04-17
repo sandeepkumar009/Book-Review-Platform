@@ -1,5 +1,5 @@
 // Define the base URL for the backend API
-const BASE_URL = import.meta.env.VITE_API_BASE_URL; // Adjust if needed
+const BASE_URL = import.meta.env.VITE_API_BASE_URL; // Adjust if needed to backend URL
 
 // Helper function for handling fetch responses
 const handleResponse = async (response) => {
