@@ -71,9 +71,9 @@ Book-Review-Platform/
 3.  **Create a `.env` file** in the `backend` directory and add the following environment variables:
     ```env
     NODE_ENV=development
-    PORT=5001 # Or any port you prefer
-    MONGO_URI=<YOUR_MONGODB_CONNECTION_STRING>
-    JWT_SECRET=<YOUR_JWT_SECRET>
+    PORT=5001 # Port for the backend server
+    MONGO_URI=<YOUR_MONGODB_CONNECTION_STRING> # e.g., mongodb://localhost:27017/bookReviewDB or Atlas URI
+    JWT_SECRET=<YOUR_JWT_SECRET> # A strong, random secret string
     FRONTEND_URL=http://localhost:5173 # Or your frontend's development URL
     ```
     *Replace placeholders with your actual MongoDB connection string and a strong secret for JWT.*
