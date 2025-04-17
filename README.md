@@ -1,44 +1,28 @@
 # Book Review Platform
 
-## Objective
-
-A full-stack web application developed as part of a developer assignment. This platform allows users to browse books, read and write reviews, and rate books[cite: 2]. It features a React frontend and a Node.js (Express) backend connected to a MongoDB database[cite: 2].
+This is a full-stack book review platform built as part of the Full Stack Developer Assignment. Users can browse books, read reviews, write their own reviews, and rate books. The application features a React frontend and a Node.js/Express backend with MongoDB.
 
 ## Features
 
-**Frontend (React):** [cite: 4]
+* **Frontend (React)**:
+    * Responsive UI.
+    * Home page displaying featured books.
+    * Book listing page with search and filtering capabilities.
+    * Detailed view for individual books, including reviews.
+    * User profile page.
+    * Review submission form.
+    * State management using React Context (`frontend/src/contexts/AuthContext.jsx`).
+    * Routing handled by React Router (`frontend/src/App.jsx`).
+    * Integration with the backend API (`frontend/src/services/api.js`).
+    * Error handling and loading indicators (`frontend/src/components/ErrorMessage.jsx`, `frontend/src/components/LoadingSpinner.jsx`).
+* **Backend (Node.js, Express, MongoDB)**:
+    * RESTful API endpoints for books, reviews, and users (`backend/routes/`).
+    * Data validation and error handling middleware (`backend/middleware/`).
+    * MongoDB for data persistence (`backend/config/db.js`, `backend/models/`).
+    * Authentication using JWT (`backend/middleware/authMiddleware.js`).
+    * Seeding script for initial book data (`backend/seed.js`).
 
-* Responsive user interface built with React and Tailwind CSS.
-* **Home Page:** Displays featured books.
-* **Book Listing Page:** Shows all books with search (by title/author) and genre filtering capabilities, including pagination.
-* **Book Detail Page:** Presents detailed information about a single book and its associated user reviews.
-* **User Profile Page:** Displays user information (viewable by anyone) and allows users to edit their own profile (name, email, bio).
-* **Review Submission:** Logged-in users can submit ratings and comments for books via a form on the Book Detail Page.
-* **Login/Register Pages:** Allows users to register for an account and log in.
-* **State Management:** Uses React Context API for managing authentication state.
-* **Routing:** Uses React Router for navigation between pages.
-* **User Experience:** Includes loading indicators and error messages.
-
-**Backend (Node.js / Express):** [cite: 3]
-
-* RESTful API built with Node.js and Express.
-* **Database:** Uses MongoDB with Mongoose for data persistence and modeling (Users, Books, Reviews).
-* **Authentication:** Implemented using JSON Web Tokens (JWT) for protected routes.
-* **Authorization:** Role-based access control (user vs. admin). The endpoint for adding new books (`POST /api/books`) is restricted to admin users.
-* **API Endpoints:** Provides endpoints for managing books, reviews, and users (details below).
-* **Data Validation:** Uses `express-validator` to validate incoming request data.
-* **Error Handling:** Includes centralized error handling middleware.
-* **Average Rating Calculation:** Automatically calculates and updates the average rating for a book when reviews are added or removed.
-
-## Technologies Used
-
-* **Frontend:** React.js, Vite, Tailwind CSS, React Router, Axios (or Fetch API)
-* **Backend:** Node.js, Express.js, MongoDB, Mongoose
-* **Authentication:** JWT (jsonwebtoken), bcryptjs
-* **Validation:** express-validator
-* **Development:** nodemon
-
-## Directory Structure
+## Project Structure
 ```
 Book-Review-Platform/
 ├── backend/
@@ -47,127 +31,121 @@ Book-Review-Platform/
 │   ├── middleware/
 │   ├── models/
 │   ├── routes/
-│   ├── .env            # (Needs to be created)
-│   ├── .gitignore
+│   ├── .env          # Environment variables (needs to be created)
 │   ├── package.json
-│   └── server.js
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── contexts/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   ├── App.jsx
-│   │   ├── index.css
-│   │   └── main.jsx
-│   ├── .env            # (Optional: For VITE_API_URL etc.)
-│   ├── .gitignore
-│   ├── index.html
-│   ├── package.json
-│   ├── tailwind.config.js # Usually present for customization
-│   └── vite.config.js
-└── README.md           # This file
+│   ├── server.js     # Backend entry point
+│   └── seed.js       # Database seeding script
+└── frontend/
+├── public/
+├── src/
+│   ├── components/
+│   ├── contexts/
+│   ├── pages/
+│   ├── services/
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx    # Frontend entry point
+├── .env          # Environment variables (needs to be created)
+├── index.html
+├── package.json
+└── vite.config.js
 ```
+## Setup Instructions
 
-## Prerequisites
+### Prerequisites
 
-* Node.js (v16 or later recommended)
-* npm (usually comes with Node.js) or yarn
-* MongoDB (running locally or using a cloud service like MongoDB Atlas)
+* Node.js (version specified in `backend/package.json` and `frontend/package.json` or latest LTS recommended)
+* npm (Node Package Manager)
+* MongoDB instance (local or cloud like MongoDB Atlas)
 
-## Setup and Installation [cite: 1]
+### Backend Setup
 
-1.  **Clone the Repository:**
+1.  **Navigate to the backend directory:**
     ```bash
-    git clone <your-repository-url>
-    cd Book-Review-Platform
+    cd Book-Review-Platform/backend
     ```
-
-2.  **Backend Setup:**
-    * Navigate to the backend directory:
-        ```bash
-        cd backend
-        ```
-    * Install dependencies:
-        ```bash
-        npm install
-        ```
-    * Create a `.env` file in the `backend` directory and add the following environment variables, replacing placeholder values:
-        ```env
-        NODE_ENV=development
-        PORT=5001 # Port for the backend server
-        MONGO_URI=<your_mongodb_connection_string> # e.g., mongodb://localhost:27017/bookReviewDB or Atlas URI
-        JWT_SECRET=<your_strong_jwt_secret_key> # A strong, random secret string
-        JWT_EXPIRES_IN=30d # Optional: Token expiration (e.g., 30d, 1h)
-        ```
-    * **Seed the Database (Optional but Recommended):** Populate the database with initial book data. Make sure your database is running and the `MONGO_URI` in `.env` is correct.
-        ```bash
-        node seed.js
-        ```
-    * **Create an Admin User (Required for adding books):**
-        * Register a new user through the frontend application.
-        * Manually update that user's document in the MongoDB `users` collection. Set the `role` field from `"user"` to `"admin"`. You can use MongoDB Compass or the `mongo` shell for this.
-    * **Run the Backend Server:**
-        * For development (with auto-restart):
-            ```bash
-            npm run dev
-            ```
-        * For production:
-            ```bash
-            npm start
-            ```
-        The backend server should now be running (typically on `http://localhost:5001`).
-
-3.  **Frontend Setup:**
-    * Navigate to the frontend directory from the root project folder:
-        ```bash
-        cd ../frontend
-        # Or from backend: cd ../frontend
-        ```
-    * Install dependencies:
-        ```bash
-        npm install
-        ```
-    * **API URL Configuration (Important):** The frontend needs to know where the backend API is running. The `services/api.js` file currently uses `http://localhost:5001/api`. If your backend runs on a different URL or port, update the `BASE_URL` constant in `frontend/src/services/api.js`. Alternatively, you can use frontend environment variables (e.g., a `.env` file in the `frontend` directory with `VITE_API_BASE_URL=http://localhost:5001/api` and update `api.js` to use `import.meta.env.VITE_API_BASE_URL`).
-    * **Run the Frontend Development Server:**
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+3.  **Create a `.env` file** in the `backend` directory and add the following environment variables:
+    ```env
+    NODE_ENV=development
+    PORT=5001 # Or any port you prefer
+    MONGO_URI=<YOUR_MONGODB_CONNECTION_STRING>
+    JWT_SECRET=<YOUR_JWT_SECRET>
+    JWT_EXPIRES_IN=30d # Optional: JWT expiry time
+    FRONTEND_URL=http://localhost:5173 # Or your frontend's development URL
+    ```
+    *Replace placeholders with your actual MongoDB connection string and a strong secret for JWT.*
+4.  **Start the backend server:**
+    * For development (with nodemon):
         ```bash
         npm run dev
         ```
-        The frontend development server should now be running (typically on `http://localhost:5173` or another port shown in the terminal). Open this URL in your browser.
+    * For production:
+        ```bash
+        npm start
+        ```
+    *The backend should now be running (typically on http://localhost:5001).*
 
-## API Endpoints [cite: 3]
+### Frontend Setup
 
-The following RESTful API endpoints are available on the backend:
+1.  **Navigate to the frontend directory:**
+    ```bash
+    cd Book-Review-Platform/frontend
+    ```
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+3.  **Create a `.env` file** in the `frontend` directory (if you need to override the backend URL):
+    ```env
+    VITE_API_BASE_URL=http://localhost:5001/api # Or your backend API URL
+    ```
+    *This step might be optional if the default in `frontend/src/services/api.js` points to your running backend.*
+4.  **Start the frontend development server:**
+    ```bash
+    npm run dev
+    ```
+    *The frontend development server (using Vite) will typically start on http://localhost:5173.*
 
-**Books**
+### Database Seeding (`backend/seed.js`)
 
-* `GET /api/books`: Get all books (supports `page`, `limit`, `search`, `genre` query params).
-* `GET /api/books/genres`: Get a list of distinct genres available.
-* `GET /api/books/:id`: Get details for a single book.
-* `POST /api/books`: Add a new book (Admin only, requires JWT token).
+The `seed.js` script located in the `backend` directory is used to populate the MongoDB database with initial sample book data. This is useful for development and testing purposes.
 
-**Reviews**
+* **Purpose**: To insert a predefined list of books into the `books` collection. It first clears any existing books in the collection before inserting the new ones.
+* **Prerequisites**: Ensure your MongoDB server is running and the `MONGO_URI` in the `backend/.env` file is correctly configured before running the script.
+* **How to run**:
+    * Navigate to the `backend` directory in your terminal.
+    * To **import** the seed data:
+        ```bash
+        node seed.js
+        ```
+    * To **destroy** (delete) all data in the `books` collection:
+        ```bash
+        node seed.js -d
+        ```
+* **Data Source**: The script uses a hardcoded array of book objects, including details like title, author, description, genre, publication date, and cover image URLs from Project Gutenberg (`backend/seed.js`).
 
-* `GET /api/reviews?bookId=<bookId>`: Get all reviews for a specific book.
-* `POST /api/reviews`: Submit a new review for a book (Requires JWT token).
+## API Endpoints
 
-**Users / Auth**
-
+* `GET /api/books`: Retrieve books (supports pagination, search, genre filter).
+* `GET /api/books/genres`: Retrieve distinct genres.
+* `GET /api/books/:id`: Retrieve a specific book by its ID.
+* `POST /api/books`: Add a new book (Admin only, requires authentication).
+* `GET /api/reviews?bookId=<bookId>`: Retrieve reviews for a specific book.
+* `POST /api/reviews`: Submit a new review (Requires authentication).
+* `GET /api/users`: Retrieve all users (Admin only, requires authentication).
 * `POST /api/users/register`: Register a new user.
-* `POST /api/users/login`: Log in a user, returns JWT token and user info.
-* `GET /api/users/:id`: Get public profile information for a user.
-* `PUT /api/users/:id`: Update the profile for the logged-in user (Requires JWT token, user can only update their own profile).
+* `POST /api/users/login`: Log in a user and receive a JWT.
+* `GET /api/users/:id`: Retrieve a specific user's profile.
+* `PUT /api/users/:id`: Update a user's profile (Requires authentication, user can only update their own profile).
+* `DELETE /api/users/:id`: Delete a user (Admin only, requires authentication).
+* `GET /api/users/:userId/reviews`: Retrieve all reviews written by a specific user.
 
-**(Admin Only User Routes)**
+## Additional Notes
 
-* `GET /api/users`: Get a list of all users (Admin only, requires JWT token).
-* `DELETE /api/users/:id`: Delete a user (Admin only, requires JWT token).
-
-## Additional Notes [cite: 1]
-
-* Ensure MongoDB is running before starting the backend server.
-* The `seed.js` script will delete existing books before importing sample data. Use with caution.
-* The admin role must be assigned manually in the database for testing admin-only features.
-* (Optional) Add deployment instructions or a link to a live demo if available.
-
+* The application uses JWT for authentication. Tokens are stored in localStorage on the frontend.
+* Admin functionalities (like adding/deleting books/users) require a user with the 'admin' role.
+* Average book ratings are calculated automatically when reviews are added or removed (`backend/models/Review.js`).
