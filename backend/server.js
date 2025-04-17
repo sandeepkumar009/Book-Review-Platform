@@ -18,7 +18,7 @@ app.use(cors({
   origin: process.env.FRONTEND_URL // Read allowed origin from env var
 }));
 
-// app.use(cors()); // use for 
+// app.use(cors()); // use for devlopment
 
 app.use(express.json());
 
