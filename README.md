@@ -74,7 +74,6 @@ Book-Review-Platform/
     PORT=5001 # Or any port you prefer
     MONGO_URI=<YOUR_MONGODB_CONNECTION_STRING>
     JWT_SECRET=<YOUR_JWT_SECRET>
-    JWT_EXPIRES_IN=30d # Optional: JWT expiry time
     FRONTEND_URL=http://localhost:5173 # Or your frontend's development URL
     ```
     *Replace placeholders with your actual MongoDB connection string and a strong secret for JWT.*
